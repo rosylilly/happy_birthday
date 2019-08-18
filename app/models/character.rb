@@ -12,11 +12,18 @@ class Character < ApplicationRecord
   validates :birth_month, inclusion: { in: (1..12) }
   validates :birth_day, inclusion: { in: (1..31) }
 
+  def birth_year
+    current = Time.current
+    year = current.year
+    year += 1 if current.beginning_of_day > Date.new(year, birth_month, birth_day)
+    year
+  end
+
   def birthday
-    Date.new(Time.current.year, birth_month, birth_day)
+    Date.new(birth_year, birth_month, birth_day)
   rescue ArgumentError
     day = 28 if birth_month == 2 && (29..30).includes?(birth_day)
-    Date.new(Time.current.year, birth_month, day)
+    Date.new(birth_year, birth_month, day)
   end
 
   def ical_event

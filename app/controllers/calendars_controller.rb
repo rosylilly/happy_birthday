@@ -1,35 +1,44 @@
 class CalendarsController < ApplicationController
   def ical
-    calendar.append_custom_property("X-WR-CALNAME;VALUE=TEXT", "ハッピーバースデー")
-    characters.find_in_batches(batch_size: 500) do |batch|
-      batch.each do |character|
-        calendar.add_event(character.ical_event)
+    return unless stale?(characters, public: true)
+
+    ics = cache([:ics, characters]) do
+      calendar.append_custom_property("X-WR-CALNAME;VALUE=TEXT", "ハッピーバースデー")
+      characters.find_in_batches(batch_size: 500) do |batch|
+        batch.each do |character|
+          calendar.add_event(character.ical_event)
+        end
       end
+      calendar.publish
+      calendar.to_ical
     end
-    calendar.publish
+
     headers["Content-Type"] = "text/calendar; charset=UTF-8"
-    render plain: calendar.to_ical
+    render plain: ics
   end
 
   def json
-    events = []
 
-    characters.find_in_batches(batch_size: 500) do |batch|
-      batch.each do |character|
-        events << {
-          title: "#{character.name} [#{character.work.title}]",
-          start: character.birthday.strftime("%Y-%m-%d"),
-          allDay: true,
-          rrule: {
-            freq: 'yearly',
-            interval: 1,
-            dtstart: character.birthday.strftime("%Y-%m-%dT00:00:00"),
-          },
-        }
+    json = cache([:json, characters]) do
+      events = []
+      characters.find_in_batches(batch_size: 500) do |batch|
+        batch.each do |character|
+          events << {
+            title: "#{character.name} [#{character.work.title}]",
+            start: character.birthday.strftime("%Y-%m-%d"),
+            allDay: true,
+            rrule: {
+              freq: 'yearly',
+              interval: 1,
+              dtstart: character.birthday.strftime("%Y-%m-%dT00:00:00"),
+            },
+          }
+        end
       end
+      events
     end
 
-    render json: events
+    render json: json
   end
 
   private

@@ -14,6 +14,8 @@ gem 'jbuilder', '~> 2.7'
 gem 'tzinfo-data'
 gem 'icalendar'
 gem 'pg'
+gem 'redis'
+gem 'hiredis'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -21,11 +21,18 @@ import clipboard from 'clipboard';
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
 
+  let eventsCache = undefined;
   var calendar = new Calendar(calendarEl, {
     plugins: [ dayGridPlugin, rrulePlugin ],
     events: (info, success, fallback) => {
-      console.log(info);
-      fetch('/calendar.json').then((resp) => resp.json()).then((data) => success(data));
+      if (eventsCache) {
+        success(eventsCache);
+      } else {
+        fetch('/calendar.json').then((resp) => resp.json()).then((data) => {
+          eventsCache = data;
+          success(data);
+        });
+      }
     },
     color: 'cyan',
     textColor: 'white',

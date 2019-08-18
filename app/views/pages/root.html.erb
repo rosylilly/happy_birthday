@@ -1,0 +1,42 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="container">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      Happy Birthday
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="/">
+        Calendar
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="field is-grouped">
+          <p class="control">
+            <input id="ical_url" type="text" class="input" readonly value="<%= ical_url %>" />
+          </p>
+          <p class="control">
+            <a class="button is-primary" id="ical_copy" data-clipboard-target="#ical_url">
+              <span>Copy</span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div id="calendar"></div>
+</div>

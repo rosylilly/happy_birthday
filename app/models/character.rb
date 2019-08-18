@@ -11,4 +11,35 @@ class Character < ApplicationRecord
   validates :name_kana, length: { maximum: 255, allow_blank: true }
   validates :birth_month, inclusion: { in: (1..12) }
   validates :birth_day, inclusion: { in: (1..31) }
+
+  def birthday
+    Date.new(Time.current.year, birth_month, birth_day)
+  rescue ArgumentError
+    day = 28 if birth_month == 2 && (29..30).includes?(birth_day)
+    Date.new(Time.current.year, birth_month, day)
+  end
+
+  def ical_event
+    @ical_event ||= begin
+      event = ::Icalendar::Event.new
+      event.created = created_at
+      event.summary = "#{name} [#{work.title}]"
+      event.description = [
+        "#{birth_month} / #{birth_day}",
+        work.title,
+        name,
+      ].join("\n")
+      event.dtstart = ::Icalendar::Values::Date.new(birthday)
+      event.dtstamp = created_at
+      event.last_modified = updated_at
+      event.uid = id.to_s
+      event.alarm do |a|
+        a.action  = "DISPLAY"
+        a.summary = "#{name}"
+        a.trigger = "-PT15M"
+      end
+
+      event
+    end
+  end
 end

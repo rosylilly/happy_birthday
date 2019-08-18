@@ -12,3 +12,27 @@ require("@rails/ujs").start()
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import clipboard from 'clipboard';
+
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+
+  var calendar = new Calendar(calendarEl, {
+    plugins: [ dayGridPlugin ],
+    events: (info, success, fallback) => {
+      console.log(info);
+      fetch('/calendar.json').then((resp) => resp.json()).then((data) => success(data));
+    },
+    color: 'cyan',
+    textColor: 'white',
+  });
+
+  calendar.render();
+
+  const copyButton = document.getElementById('ical_copy');
+
+  new clipboard(copyButton);
+});

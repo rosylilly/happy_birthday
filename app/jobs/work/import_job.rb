@@ -44,7 +44,6 @@ class Work::ImportJob < ApplicationJob
       name_kana = div.css('h4 ruby rt').text.strip
       next if name.blank?
 
-      p name
       birth_month, birth_day = *div.css('ul > li:first-child > p').text.split('/', 2).map(&:to_i)
 
       gender = :unknown

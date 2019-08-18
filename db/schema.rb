@@ -12,13 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2019_08_18_094610) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "characters", force: :cascade do |t|
     t.integer "work_id", null: false
     t.string "name", limit: 255, null: false
     t.string "name_kana", limit: 255, null: false
     t.integer "birth_month", limit: 2, null: false
     t.integer "birth_day", limit: 2, null: false
-    t.integer "gender", limit: 1, default: 0, null: false
+    t.integer "gender", limit: 2, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["work_id"], name: "index_characters_on_work_id"

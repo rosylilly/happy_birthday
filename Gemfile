@@ -7,13 +7,13 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'rails', '~> 6.0.0'
 
-gem 'sqlite3', '~> 1.4'
 gem 'puma', '~> 3.11'
 gem 'sass-rails', '~> 5'
 gem 'webpacker', '~> 4.0'
 gem 'jbuilder', '~> 2.7'
 gem 'tzinfo-data'
 gem 'icalendar'
+gem 'pg'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

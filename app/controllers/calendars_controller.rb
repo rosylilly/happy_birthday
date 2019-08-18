@@ -20,6 +20,11 @@ class CalendarsController < ApplicationController
           title: "#{character.name} [#{character.work.title}]",
           start: character.birthday.strftime("%Y-%m-%d"),
           allDay: true,
+          rrule: {
+            freq: 'yearly',
+            interval: 1,
+            dtstart: character.birthday.strftime("%Y-%m-%dT00:00:00"),
+          },
         }
       end
     end

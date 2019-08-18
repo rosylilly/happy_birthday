@@ -15,7 +15,7 @@ class Character < ApplicationRecord
   def birth_year
     current = Time.current
     year = current.year
-    year += 1 if current.beginning_of_day > Date.new(year, birth_month, birth_day)
+    year -= 1 if current.end_of_day < Date.new(year, birth_month, birth_day)
     year
   end
 
@@ -40,6 +40,7 @@ class Character < ApplicationRecord
       event.dtstamp = created_at
       event.last_modified = updated_at
       event.uid = id.to_s
+      event.rrule = 'FREQ=YEARLY'
       event.alarm do |a|
         a.action  = "DISPLAY"
         a.summary = "#{name}"

@@ -15,13 +15,14 @@ require("@rails/ujs").start()
 
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import rrulePlugin from '@fullcalendar/rrule';
 import clipboard from 'clipboard';
 
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
 
   var calendar = new Calendar(calendarEl, {
-    plugins: [ dayGridPlugin ],
+    plugins: [ dayGridPlugin, rrulePlugin ],
     events: (info, success, fallback) => {
       console.log(info);
       fetch('/calendar.json').then((resp) => resp.json()).then((data) => success(data));

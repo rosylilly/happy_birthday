@@ -17,6 +17,9 @@
       <a class="navbar-item" href="/">
         Calendar
       </a>
+      <div class="navbar-item">
+        Latest Updated: <%= l Character.maximum(:updated_at), format: :short %>
+      </div>
     </div>
 
     <div class="navbar-end">

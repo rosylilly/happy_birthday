@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     color: 'cyan',
     textColor: 'white',
+    header: {
+      left: 'dayGridMonth,dayGridWeek',
+      center: 'title',
+      right: 'today prev,next'
+    }
   });
 
   calendar.render();

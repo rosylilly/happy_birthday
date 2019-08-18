@@ -34,6 +34,6 @@ class CalendarsController < ApplicationController
   end
 
   def characters
-    @characters ||= Character.eager_load(:work).all
+    @characters ||= Character.eager_load(:work).female
   end
 end

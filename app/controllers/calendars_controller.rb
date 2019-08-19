@@ -2,7 +2,7 @@ class CalendarsController < ApplicationController
   def ical
     return unless stale?(characters, public: true)
 
-    ics = cache([:ics, characters]) do
+    ics = cache([:ics, characters.cache_key]) do
       calendar.append_custom_property("X-WR-CALNAME;VALUE=TEXT", "ハッピーバースデー")
       characters.find_in_batches(batch_size: 500) do |batch|
         batch.each do |character|
@@ -18,8 +18,9 @@ class CalendarsController < ApplicationController
   end
 
   def json
+    return unless stale?(characters, public: true)
 
-    json = cache([:json, characters]) do
+    json = cache([:json, characters.cache_key]) do
       events = []
       characters.find_in_batches(batch_size: 500) do |batch|
         batch.each do |character|

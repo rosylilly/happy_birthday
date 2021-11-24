@@ -5,10 +5,10 @@ ruby File.read('.ruby-version').strip
 
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.1.4'
 
-gem 'puma', '~> 4.3'
-gem 'sass-rails', '~> 5'
+gem 'puma'
+gem 'sass-rails'
 gem 'webpacker', '~> 4.0'
 gem 'jbuilder', '~> 2.7'
 gem 'tzinfo-data'
@@ -23,8 +23,7 @@ end
 
 group :development do
   gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
-
